@@ -1,6 +1,6 @@
 class Simbolo:
 	def __init__(self, totalSimb, totalLido):
-		self.__freq = totalSimb / totalLido
+		self.__freq = float(totalSimb) / float(totalLido)
 		#self.__byteArray = [];
 		#TODO: See what this class needs to have.
 	
