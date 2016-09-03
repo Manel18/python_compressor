@@ -7,11 +7,11 @@ import reader
 TODO:
 [x]	Reading the command line arguments works but we should
 	probably make the messages more readable(?), a bit more
-	nice to the eyes :P
+	nice to the eye :P
 
 [x]	1- Check if files exist
 [x]	2- Read and create dictionary ( { simb: total vezes que aparece no ficheiro } )
-[]	3 - Transform that into {simb: Simbolo}
+[x]	3 - Transform that into {simb: Simbolo}
 []	4 - Do calculations, entropy and shit (see if file is worth compressing)
 []	5 - Shannon fano
 []	7 - write, byte per byte
