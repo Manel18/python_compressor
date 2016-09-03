@@ -1,3 +1,10 @@
+"""
+TODO: - Remember to check out the toString method
+	  - If the objects of this class wont have the 
+	  	symbol they represent maybe we should change the name
+		We'll see how it goes.
+"""
+
 class Simbolo:
 	def __init__(self, totalSimb, totalLido):
 		self.__freq = float(totalSimb) / float(totalLido)
