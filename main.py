@@ -2,6 +2,7 @@ import os.path
 import argparse
 import simbolo
 import reader
+import utils
 
 """
 TODO:
@@ -12,7 +13,7 @@ TODO:
 [x]	1- Check if files exist
 [x]	2- Read and create dictionary ( { simb: total vezes que aparece no ficheiro } )
 [x]	3 - Transform that into {simb: Simbolo}
-[]	4 - Do calculations, entropy and shit (see if file is worth compressing)
+[x]	4 - Do calculations, entropy and shit (see if file is worth compressing)
 []	5 - Shannon fano
 []	7 - write, byte per byte
 
@@ -46,8 +47,15 @@ for i in real_files:
 	# Transform simbolos -> { char x: Simbolo(#x's, total_lido) }
 	for key in simbolos.keys():				   
 		total_simb = simbolos[key]
-		simbolos[key] = simbolo.Simbolo(total_simb, total_lido)
+		simbolos[key] = simbolo.Simbolo(key, total_simb, total_lido)
+	# Sort by freq
+	sortedList = sorted(simbolos.values())
 	# Entropy and shit -> decisions
+	e = utils.entropy(sortedList)
+	if args.d == True:
+		print e
+		print utils.entropyLimit(total_lido)
+	
 	# Shannon
 	f.close()
 	#write
