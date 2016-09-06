@@ -3,6 +3,7 @@ import argparse
 import simbolo
 import reader
 import utils
+import shannon
 
 """
 TODO:
@@ -49,7 +50,7 @@ for i in real_files:
 		total_simb = simbolos[key]
 		simbolos[key] = simbolo.Simbolo(key, total_simb, total_lido)
 	# Sort by freq
-	sortedList = sorted(simbolos.values())
+	sortedList = sorted(simbolos.values(), reverse=True)
 	# Entropy and shit -> decisions
 	e = utils.entropy(sortedList)
 	if args.d == True:
@@ -57,5 +58,11 @@ for i in real_files:
 		print utils.entropyLimit(total_lido)
 	
 	# Shannon
+	shannon.shannon(sortedList, 0, len(sortedList)-1)
+	
+	if args.d:
+		for x in sortedList:
+			print x.getCode()
+
 	f.close()
 	#write
