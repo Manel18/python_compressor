@@ -4,6 +4,7 @@ import simbolo
 import reader
 import utils
 import shannon
+import writer
 
 """
 TODO:
@@ -15,7 +16,7 @@ TODO:
 [x]	2- Read and create dictionary ( { simb: total vezes que aparece no ficheiro } )
 [x]	3 - Transform that into {simb: Simbolo}
 [x]	4 - Do calculations, entropy and shit (see if file is worth compressing)
-[]	5 - Shannon fano
+[x]	5 - Shannon fano
 []	7 - write, byte per byte
 
 	that's all folks :P
@@ -53,7 +54,7 @@ for i in real_files:
 	sortedList = sorted(simbolos.values(), reverse=True)
 	# Entropy and shit -> decisions
 	e = utils.entropy(sortedList)
-	if args.d == True:
+	if args.d: 
 		print e
 		print utils.entropyLimit(total_lido)
 	
@@ -64,5 +65,15 @@ for i in real_files:
 		for x in sortedList:
 			print x.getCode()
 
-	f.close()
+	#Assuming the model: <file_name>.<extension> 
+	temp = i.split('.')
+	newFileName = temp[0]+"_zip"	
+	outFile = open(newFileName, "wb")
 	#write
+	teste = {}
+	for i in sortedList:
+		teste[i.getSimb()] = i 
+	
+	writer.write(teste, f, outFile)
+	f.close()
+	outFile.close();
