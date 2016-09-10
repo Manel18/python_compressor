@@ -30,6 +30,8 @@ parser.add_argument('files', nargs='+')
 # debug flag
 parser.add_argument('-d', action='store_true')
 
+parser.add_argument('-check', action='store_true')
+
 args = parser.parse_args()
 
 real_files = []
@@ -58,12 +60,17 @@ for i in real_files:
 		print e
 		print utils.entropyLimit(total_lido)
 	
+	if args.check:
+		raise SystemExit("Entropy checked!")
 	# Shannon
 	shannon.shannon(sortedList, 0, len(sortedList)-1)
 	
 	if args.d:
 		for x in sortedList:
-			print x.getCode()
+			if x.getSimb() == '\n':
+				print "\\n: %s (%f)" % (x.getCode(), x.getFreq())
+			else:
+				print "%c: %s (%f)" % (x.getSimb(), x.getCode(), x.getFreq())
 
 	#Assuming the model: <file_name>.<extension> 
 	temp = i.split('.')

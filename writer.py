@@ -41,17 +41,18 @@ def writeCompr(simbs,buff, fIn, fOut):
 
 def writeToBinBuffer(buff, simb, fOut):
 	
+	temp = buff.BYTE_SIZE - 1
+
 	for bit in simb.getCode():
 		if buff.length == buff.BYTE_SIZE:
-			byte = to_bytes(buff.buffr, buff.length) #bytes(buff.buffr)
+			byte = chr(buff.buffr) #bytes(buff.buffr)
 			fOut.write(byte)
 			buff.length = buff.buffr = 0
-
+	
 		if bit == '1':
-			buff.buffr |= (1 << buff.length)
-		else:
-			buff.buffr &= ~(1 << buff.length)
-
+			buff.buffr |= (1 << (temp - buff.length))
+	#	else:
+	#		buff.buffr &= ~(1 << (temp - buff.length))
 		buff.length += 1
 
 # http://stackoverflow.com/questions/16022556/has-python-3-2-to-bytes-been-back-ported-to-python-2-7
