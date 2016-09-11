@@ -58,7 +58,7 @@ for i in real_files:
 	e = utils.entropy(sortedList)
 	if args.d: 
 		print e
-		print utils.entropyLimit(total_lido)
+		print utils.entropyLimit(len(sortedList))
 	
 	if args.check:
 		raise SystemExit("Entropy checked!")
