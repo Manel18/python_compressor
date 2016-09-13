@@ -17,7 +17,7 @@ TODO:
 [x]	3 - Transform that into {simb: Simbolo}
 [x]	4 - Do calculations, entropy and shit (see if file is worth compressing)
 [x]	5 - Shannon fano
-[]	7 - write, byte per byte
+[x]	7 - write, byte per byte
 
 	that's all folks :P
 """
@@ -77,10 +77,14 @@ for i in real_files:
 	newFileName = temp[0]+"_zip"	
 	outFile = open(newFileName, "wb")
 	#write
+	bytes_after_compress = 0
 	teste = {}
 	for i in sortedList:
 		teste[i.getSimb()] = i 
 	
-	writer.write(teste, f, outFile)
+	bytes_after_compress = writer.write(teste, f, outFile)
+
+	if args.d :
+		print "Compression ratio: {0}".format(float(total_lido)/float(bytes_after_compress));
 	f.close()
 	outFile.close();

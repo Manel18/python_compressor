@@ -1,13 +1,15 @@
 import simbolo
 import sys
-"""
-TODO:  Cant find a way to simply write a byte
-	   Maybe we'll have to use some python
-	   functionality, like Struct or BytesIO
-	   (Still havent looked ate it though)
 
-	   This is proving to be more tricky than
-	   what we've thought it would be.
+"""
+TODO: We still have to write the table
+	  We haveo to write at least 4 things for each symbol:
+	  
+	  1: The size of the table
+		*the for each symbol*
+	  2: The (byte-sized) symbol it self
+	  3: The length of the shannon code for this symbol
+	  4: The shannon fano code for the symbol
 """
 ##################################################
 
@@ -24,36 +26,53 @@ class BinBuffer:
 
 def write(simbs, fIn, fOut):
 	buff = BinBuffer(0)
+	num_bytes = 0
 	# Write table here
+	writeTable(simbs, fOut)
 	# Write compressed file here
 	fIn.seek(0,0)
-	writeCompr(simbs,buff, fIn, fOut)
+	num_bytes += writeCompr(simbs,buff, fIn, fOut)
+	return num_bytes;
 
-"""
-def writeTable(simbs,buff, fOut):
-	#Write Table
-"""
+def writeTable(simbs, fOut):
+	byte_wrt = 0
+	#write size of table
+	size = len(simbs)
+	fOut.write(chr(size))
+	for i in simbs.keys():
+		codeLen = len(simbs[i].getCode());
+		fOut.write("{0}{1}{2}".format(i, chr(codeLen), simbs[i].getCode()))
+		byte_wrt += (codeLen+2)
+	
+	return byte_wrt
 
-def writeCompr(simbs,buff, fIn, fOut):
+
+def writeCompr(simbs, buff, fIn, fOut):
+	byte_count = 0
 	for i in fIn:
 		for j in i:
-			writeToBinBuffer(buff, simbs[j], fOut)
+			byte_count += writeToBinBuffer(buff, simbs[j], fOut)
+	return byte_count
 
 def writeToBinBuffer(buff, simb, fOut):
 	
 	temp = buff.BYTE_SIZE - 1
+	byte_wrt = 0
 
 	for bit in simb.getCode():
 		if buff.length == buff.BYTE_SIZE:
 			byte = chr(buff.buffr) #bytes(buff.buffr)
 			fOut.write(byte)
+			byte_wrt += 1
 			buff.length = buff.buffr = 0
 	
 		if bit == '1':
 			buff.buffr |= (1 << (temp - buff.length))
+	#	I think we actually dont need the else statement
 	#	else:
 	#		buff.buffr &= ~(1 << (temp - buff.length))
 		buff.length += 1
+	return byte_wrt
 
 # http://stackoverflow.com/questions/16022556/has-python-3-2-to-bytes-been-back-ported-to-python-2-7
 def to_bytes(n, length, endianess='big'):
