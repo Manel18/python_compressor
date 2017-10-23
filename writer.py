@@ -6,7 +6,7 @@ TODO: We still have to write the table
 	  We haveo to write at least 4 things for each symbol:
 	  
 	  1: The size of the table
-		*the for each symbol*
+		*then for each symbol*
 	  2: The (byte-sized) symbol it self
 	  3: The length of the shannon code for this symbol
 	  4: The shannon fano code for the symbol
