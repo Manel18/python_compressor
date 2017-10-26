@@ -43,3 +43,6 @@ class Simbolo:
 	
 	def appendBit(self, bit):
 		self.__code += bit
+	
+	def toString(self):
+		return "{0}\t{1:.6f}\t{2}".format(self.__simb, self.__freq, self.__code)

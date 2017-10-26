@@ -1,5 +1,7 @@
 import simbolo
 import sys
+import pickle
+
 
 """
 TODO: We still have to write the table
@@ -23,7 +25,7 @@ class BinBuffer:
 		self.buffr = 0
 
 ##################################################
-
+'''
 def write(simbs, fIn, fOut):
 	buff = BinBuffer(0)
 	num_bytes = 0
@@ -40,26 +42,36 @@ def writeTable(simbs, fOut):
 	size = len(simbs)
 	fOut.write(chr(size))
 	for i in simbs.keys():
-		codeLen = len(simbs[i].getCode());
+		codeLen = len(simbs[i]);
 		fOut.write("{0}{1}{2}".format(i, chr(codeLen), simbs[i].getCode()))
 		byte_wrt += (codeLen+2)
 	
 	return byte_wrt
+'''
+
+def write(simbs, fIn, fOut):
+	buff = BinBuffer(0)
+	num_bytes = 0
+	pickle.dump(simbs, fOut, pickle.HIGHEST_PROTOCOL)
+	fIn.seek(0,0)
+	writeCompr(simbs,buff,fIn,fOut)
 
 
 def writeCompr(simbs, buff, fIn, fOut):
 	byte_count = 0
 	for i in fIn:
 		for j in i:
-			byte_count += writeToBinBuffer(buff, simbs[j], fOut)
+			if j in simbs:
+				byte_count += writeToBinBuffer(buff, simbs[j], fOut)
+	byte = chr(buff.buffr)
+	fOut.write(byte)
 	return byte_count
 
 def writeToBinBuffer(buff, simb, fOut):
-	
 	temp = buff.BYTE_SIZE - 1
 	byte_wrt = 0
 
-	for bit in simb.getCode():
+	for bit in simb:
 		if buff.length == buff.BYTE_SIZE:
 			byte = chr(buff.buffr) #bytes(buff.buffr)
 			fOut.write(byte)
